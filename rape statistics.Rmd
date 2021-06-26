@@ -1,0 +1,216 @@
+---
+title: "Los Angeles Rape Statistics"
+author: "Ali Unlu"
+date: "6/24/2021"
+output: 
+html_document: 
+keep_md: yes
+---
+# Los Angles Crime data 
+
+In this simulation, we will explore the Los Angeles crime statistics.
+Since the crime types are so wide, we will only check-out __RAPE FORCIBLE__ statistics. 
+
+First we will load the data from the web. The data include updated statistics since 2020. It is a public file, so you can download and play with the data as well. 
+
+#### Below are all the variables in the dataset, followed by its description:    
+__DR_NO__ - Division of Records Number: Official file number made up of a 2 digit year, area ID, and 5 digits.  
+__DATE OCC__ - Date of crime occurrence(YYYY-MM-DD)  
+__AREA__ - The LAPD has 21 Community Police Stations referred to as Geographic Areas within the department. These Geographic Areas are sequentially numbered from 1-21.  
+__AREA NAME__ - The 21 Geographic Areas or Patrol Divisions are also given a name designation that references a landmark or the surrounding community that it is responsible for.  
+__Rpt Dist No__ - Code that represents a sub-area within a Geographic Area.  
+__Crm Cd__  - Indicates the crime committed.  
+__Crm Cd Desc__ - Defines the Crime Code provided.  
+__Vict Age__ - Indicates the age of the victim.  
+__Vict Sex__ - F: Female M: Male X: Unknown  
+__Vict Descent__ - Descent Code: __A __- Other Asian __B__ - Black __C__ - Chinese __D__ - Cambodian __F__ - Filipino __G__ - Guamanian __H__ - Hispanic/Latin/Mexican __I__ - American Indian/Alaskan Native __J__ - Japanese __K__ - Korean __L__ - Laotian __O__ - Other __P__ - Pacific Islander __S__ - Samoan __U__ - Hawaiian __V__ - Vietnamese __W__ - White __X__ - Unknown __Z__ - Asian Indian  
+__Premis Cd__ - The type of structure, vehicle, or location where the crime took place.     
+__Premis Desc__ - Defines the Premise Code provided.  
+__Weapon Used Cd__ - The type of weapon used in the crime.  
+__Weapon Desc__ - Defines the Weapon Used Code provided.    
+__LOCATION __ - Street address of crime incident rounded to the nearest hundred block to maintain anonymity.  
+__LAT__ - Latitude Coordinate.  
+__LON__ - Longitude Coordinate.  
+
+```{r warning=FALSE}
+# data
+data <- read.csv("https://data.lacity.org/api/views/2nrs-mtv8/rows.csv?accessType=DOWNLOAD")
+
+# required packages
+library(tidyverse)
+library(lubridate)
+library(scales)
+library(ggh4x) # for ggsubset function 
+
+```
+
+
+```{r echo=TRUE}
+# dimension
+dim(data)
+# first six rows
+head(data)
+
+
+```
+As of 24th of June 2021, 284780 entry, consisting 28 column. 
+
+We can also look how many crime types exist in the Los Angeles police database. Among others, we filter RAPE, FORCIBLE
+rows from the dataset
+
+```{r echo=FALSE}
+# crime types
+# too long to show and not necessary
+# unique(data$Crm.Cd.Desc)
+
+
+# filtering RAPE, FORCIBLE
+rape <- filter(data, Crm.Cd.Desc == "RAPE, FORCIBLE" )
+
+
+```
+
+## Crime Scenes
+Basically, we can look at the most frequent places people were raped. The police records contains 58 different settings that victims reported for this type of crime. For the clarity of the graph, we only illustrate the 10 most frequent places here. 
+
+```{r echo=T}
+
+
+# rape by crime scene
+CS <- rape %>% 
+        group_by(Premis.Desc) %>%
+        summarise(number=n()) %>%
+        arrange(-number) 
+
+ggplot(data=CS[1:10,], aes(x = reorder(Premis.Desc, -number), y=number)) +
+        geom_bar(stat="identity", fill="#56B4E9" ) +
+        theme_minimal() +
+        theme(axis.text.x = element_text(angle=70, hjust=1)) +
+        xlab("")+
+        ylab(" Frequency of Rape")+
+        coord_flip()
+
+```
+
+The graph shows that most of the offenses were committed in private premises, which were followed by public spaces such as street, parks or parking lots. 
+
+## Age 
+In the next step, we will check out whether age varies according to premises. Since the dataset contains 58 different crime scenes, we subset the data with the most frequent 8 places. 
+
+```{r echo=T}
+
+# First we will look at the age distribution
+
+hist(rape$Vict.Age, main= "Age distribution of the victims" , xlab=" Age of the victims")
+# mean of the age
+abline(v = mean(rape$Vict.Age), col="red", lwd=3, lty=2)
+
+rape %>%
+        mutate(class = fct_reorder(Premis.Desc, Vict.Age, .fun='length' ))%>%
+        ggplot(aes(x=Premis.Desc, y=Vict.Age, fill=Premis.Desc)) +
+        geom_boxplot(data = ggsubset(Premis.Desc ==c("SINGLE FAMILY DWELLING",
+                                                     "MULTI-UNIT DWELLING (APARTMENT, DUPLEX, ETC)",
+                                                     "STREET", "HOTEL", "VEHICLE, PASSENGER/TRUCK",
+                                                     "MOTEL", "PARKING LOT", "SIDEWALK"))) +
+        xlab("Vict.Descent") +
+        theme(legend.position="none", axis.text.x = element_text(angle=70, hjust=1)) +
+        xlab("Crime Scene") +
+        ylab("Age of the Victim")
+
+```
+
+
+As shown, the mean age of the victims most likely varies between 20-40 and there is no such mean differences between groups. On the other hand, results show that people at higher age tend to be victim of rape most likely in public spaces such as parking lots and sidewalk.When people get older, they have more economic and mobility freedom to be outside. Nevertheless, young people are more likely to be victim of rape in motels, Single family dwellings and vehicles.    
+
+## Age and ethicity
+Another interesting point might be the age of victims across ethnicity. I did not go deep into code book of this dataset but it includes 8 different ethnicity groups, of which I cannot interpret well. 
+
+```{r echo=T}
+rape %>%
+        mutate(class = fct_reorder(Vict.Descent, Vict.Age, .fun='length' )) %>%
+        ggplot( aes(x=Vict.Descent, y=Vict.Age, fill=Vict.Descent)) + 
+        geom_boxplot() +
+        xlab("Vict.Descent") +
+        theme(legend.position="none") +
+        xlab("Ethicity of the Victim") +
+        ylab("Age of the Victim")
+
+```
+
+The graph shows some outlier for B (Black or African Americans) and H (Hispanics), which indicates people from this group becomes victim of rape even at higher ages. Except K (Korean), there is no such variation between ethicity groups. 
+
+## Time of the offenses
+
+The next phase, we will look at when offenses most likely occur. First, we will check which months rapes more likely occurs. 
+
+```{r echo=T}
+# creating a new variable with data format
+# DATE OCC´= Date of crime occurrence(YYYY-MM-DD)  
+rape$date <- mdy_hms(rape$DATE.OCC)
+#year
+rape$year <- year(rape$date)
+# month
+rape$month <- month(rape$date, label = TRUE)
+# day 
+rape$day <- wday(rape$date, label = TRUE, abbr = FALSE)
+# hour but it has no value
+rape$hour <- hour(rape$date)
+
+# rapes by months
+rape_month <- rape %>%
+        filter(year=="2020") %>%
+        group_by(month) %>%
+        summarize(count=n()) %>%
+        arrange(-count)
+
+ggplot(data=rape_month, aes(x = reorder(month, -count), y=count)) +
+        geom_bar(stat="identity", fill="#56B4E9")+
+        xlab( "") +
+        ylab(" Frequency")+
+        ggtitle("Rape statistics by months in 2020")+
+        theme_minimal() +
+        theme(axis.text.x = element_text(angle=45, hjust=1)) 
+```
+
+Since the data includes 2020 and half of the 2021, it is not logical to make monthly comparison of the whole data. Then we only keep 2020. The bar graph shows that the most offenses occur in September in 2020 and it is followed by February, October and July. Although the summer season seems to have higher rates of rape, it does not seem to have a strong trend.  
+
+## Offenses by days
+
+```{r echo=T}
+
+# rape by weekdays
+rape_day <- rape %>%
+        group_by(day) %>%
+        summarize(count=n()) %>%
+        arrange(-count)
+
+ggplot(data=rape_day, aes(x = reorder(day, -count), y=count)) +
+        geom_bar(stat="identity", fill="#56B4E9" )+
+        xlab( "") +
+        ylab(" Frequency")+
+        ggtitle("Rape statistics by weekdays")+
+        theme_minimal() +
+        theme(axis.text.x = element_text(angle=45, hjust=1)) 
+
+```
+
+As expected, weekends are the most frequent days for the rape crimes.
+
+Finally, we can also look the variation of offenses per week in line graph.
+
+```{r echo=TRUE}
+rape %>% 
+        count(week = floor_date(date, "week")) %>% 
+        ggplot(aes(week, n)) +
+        geom_line()+
+        xlab( "") +
+        ylab(" Frequency")+
+        ggtitle("Rape statistics by weeks")
+
+```
+
+There is no significant trend in variation of offenses during the years. It goes up and down during the last two years. 
+
+# Conclusion
+
+This is a very basic explanatory data analysis sheet. The main idea is to show how to deal with categorical data, mostly with the frequency of an events, such as rape case in our example. This a main descriptive statistics of the police records on particular crime type. The main findings suggest that you shoud be more careful particularly at weekends.  Stay safe! 

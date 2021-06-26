@@ -8,10 +8,29 @@ output:
 ---
 # Los Angles Crime data 
 
-In this simulation, we will explore the Los Angeles crime statatistics.
+In this simulation, we will explore the Los Angeles crime statistics.
 Since the crime types are so wide, we will only check-out RAPE FORCIBLE statistics. 
 
 First we will load the data from the web. The data include updated statistics since 2020. It is a public file, so you can download and play with the data as well. 
+
+#### Below are all the variables in the dataset, followed by its description:    
+__DR_NO__ - Division of Records Number: Official file number made up of a 2 digit year, area ID, and 5 digits.
+__DATE OCC__ - Date of crime occurrence(YYYY-MM-DD)  
+__AREA__ - The LAPD has 21 Community Police Stations referred to as Geographic Areas within the department. These Geographic Areas are sequentially numbered from 1-21.  
+__AREA NAME__ - The 21 Geographic Areas or Patrol Divisions are also given a name designation that references a landmark or the surrounding community that it is responsible for.  
+__Rpt Dist No__ - Code that represents a sub-area within a Geographic Area.  
+__Crm Cd__  - Indicates the crime committed.  
+__Crm Cd Desc__ - Defines the Crime Code provided.
+__Vict Age__ - Indicates the age of the victim.  
+__Vict Sex__ - F: Female M: Male X: Unknown  
+__Vict Descent__ - Descent Code: A - Other Asian B - Black C - Chinese D - Cambodian F - Filipino G - Guamanian H - Hispanic/Latin/Mexican I - American Indian/Alaskan Native J - Japanese K - Korean L - Laotian O - Other P - Pacific Islander S - Samoan U - Hawaiian V - Vietnamese W - White X - Unknown Z - Asian Indian
+__Premis Cd__ - The type of structure, vehicle, or location where the crime took place. 
+__Premis Desc__ - Defines the Premise Code provided.  
+__Weapon Used Cd__ - The type of weapon used in the crime.  
+__Weapon Desc__ - Defines the Weapon Used Code provided.  
+__LOCATION __ - Street address of crime incident rounded to the nearest hundred block to maintain anonymity.  
+__LAT__ - Latitude Coordinate.  
+__LON__ - Longitude Coordinate.  
 
 
 ```r
@@ -188,8 +207,8 @@ rows from the dataset
 ##  [26] "THEFT FROM MOTOR VEHICLE - GRAND ($400 AND OVER)"        
 ##  [27] "THEFT FROM MOTOR VEHICLE - ATTEMPT"                      
 ##  [28] "THROWING OBJECT AT MOVING VEHICLE"                       
-##  [29] "INTIMATE PARTNER - AGGRAVATED ASSAULT"                   
-##  [30] "BUNCO, GRAND THEFT"                                      
+##  [29] "BUNCO, GRAND THEFT"                                      
+##  [30] "INTIMATE PARTNER - AGGRAVATED ASSAULT"                   
 ##  [31] "ATTEMPTED ROBBERY"                                       
 ##  [32] "OTHER ASSAULT"                                           
 ##  [33] "BOMB SCARE"                                              
@@ -204,49 +223,49 @@ rows from the dataset
 ##  [42] "LETTERS, LEWD  -  TELEPHONE CALLS, LEWD"                 
 ##  [43] "SHOPLIFTING-GRAND THEFT ($950.01 & OVER)"                
 ##  [44] "INDECENT EXPOSURE"                                       
-##  [45] "BUNCO, PETTY THEFT"                                      
-##  [46] "VIOLATION OF TEMPORARY RESTRAINING ORDER"                
+##  [45] "VIOLATION OF TEMPORARY RESTRAINING ORDER"                
+##  [46] "BUNCO, PETTY THEFT"                                      
 ##  [47] "KIDNAPPING - GRAND ATTEMPT"                              
-##  [48] "CONTEMPT OF COURT"                                       
-##  [49] "RESISTING ARREST"                                        
-##  [50] "DISCHARGE FIREARMS/SHOTS FIRED"                          
-##  [51] "EMBEZZLEMENT, GRAND THEFT ($950.01 & OVER)"              
-##  [52] "KIDNAPPING"                                              
-##  [53] "LEWD CONDUCT"                                            
-##  [54] "DEFRAUDING INNKEEPER/THEFT OF SERVICES, $400 & UNDER"    
-##  [55] "PURSE SNATCHING"                                         
-##  [56] "STALKING"                                                
-##  [57] "SODOMY/SEXUAL CONTACT B/W PENIS OF ONE PERS TO ANUS OTH" 
-##  [58] "VEHICLE - MOTORIZED SCOOTERS, BICYCLES, AND WHEELCHAIRS" 
-##  [59] "CHILD NEGLECT (SEE 300 W.I.C.)"                          
+##  [48] "RESISTING ARREST"                                        
+##  [49] "DISCHARGE FIREARMS/SHOTS FIRED"                          
+##  [50] "EMBEZZLEMENT, GRAND THEFT ($950.01 & OVER)"              
+##  [51] "KIDNAPPING"                                              
+##  [52] "LEWD CONDUCT"                                            
+##  [53] "DEFRAUDING INNKEEPER/THEFT OF SERVICES, $400 & UNDER"    
+##  [54] "PURSE SNATCHING"                                         
+##  [55] "STALKING"                                                
+##  [56] "SODOMY/SEXUAL CONTACT B/W PENIS OF ONE PERS TO ANUS OTH" 
+##  [57] "VEHICLE - MOTORIZED SCOOTERS, BICYCLES, AND WHEELCHAIRS" 
+##  [58] "CHILD NEGLECT (SEE 300 W.I.C.)"                          
+##  [59] "CONTEMPT OF COURT"                                       
 ##  [60] "BUNCO, ATTEMPT"                                          
-##  [61] "COUNTERFEIT"                                             
-##  [62] "HUMAN TRAFFICKING - COMMERCIAL SEX ACTS"                 
-##  [63] "EXTORTION"                                               
-##  [64] "THEFT PLAIN - ATTEMPT"                                   
-##  [65] "RAPE, ATTEMPTED"                                         
-##  [66] "SHOPLIFTING - ATTEMPT"                                   
-##  [67] "FALSE IMPRISONMENT"                                      
-##  [68] "BURGLARY FROM VEHICLE, ATTEMPTED"                        
-##  [69] "DISTURBING THE PEACE"                                    
-##  [70] "FAILURE TO YIELD"                                        
-##  [71] "THREATENING PHONE CALLS/LETTERS"                         
-##  [72] "VEHICLE - ATTEMPT STOLEN"                                
-##  [73] "EMBEZZLEMENT, PETTY THEFT ($950 & UNDER)"                
-##  [74] "UNAUTHORIZED COMPUTER ACCESS"                            
-##  [75] "CRIMINAL HOMICIDE"                                       
+##  [61] "SEX,UNLAWFUL(INC MUTUAL CONSENT, PENETRATION W/ FRGN OBJ"
+##  [62] "COUNTERFEIT"                                             
+##  [63] "HUMAN TRAFFICKING - COMMERCIAL SEX ACTS"                 
+##  [64] "EXTORTION"                                               
+##  [65] "THEFT PLAIN - ATTEMPT"                                   
+##  [66] "RAPE, ATTEMPTED"                                         
+##  [67] "SHOPLIFTING - ATTEMPT"                                   
+##  [68] "FALSE IMPRISONMENT"                                      
+##  [69] "BURGLARY FROM VEHICLE, ATTEMPTED"                        
+##  [70] "DISTURBING THE PEACE"                                    
+##  [71] "FAILURE TO YIELD"                                        
+##  [72] "THREATENING PHONE CALLS/LETTERS"                         
+##  [73] "VEHICLE - ATTEMPT STOLEN"                                
+##  [74] "EMBEZZLEMENT, PETTY THEFT ($950 & UNDER)"                
+##  [75] "UNAUTHORIZED COMPUTER ACCESS"                            
 ##  [76] "CREDIT CARDS, FRAUD USE ($950 & UNDER"                   
 ##  [77] "PICKPOCKET"                                              
 ##  [78] "DISHONEST EMPLOYEE - GRAND THEFT"                        
 ##  [79] "THEFT FROM PERSON - ATTEMPT"                             
 ##  [80] "SHOTS FIRED AT MOVING VEHICLE, TRAIN OR AIRCRAFT"        
-##  [81] "PROWLER"                                                 
-##  [82] "SEX,UNLAWFUL(INC MUTUAL CONSENT, PENETRATION W/ FRGN OBJ"
+##  [81] "CHILD STEALING"                                          
+##  [82] "PROWLER"                                                 
 ##  [83] "CHILD ANNOYING (17YRS & UNDER)"                          
-##  [84] "CREDIT CARDS, FRAUD USE ($950.01 & OVER)"                
-##  [85] "ASSAULT WITH DEADLY WEAPON ON POLICE OFFICER"            
-##  [86] "CHILD STEALING"                                          
-##  [87] "SEX OFFENDER REGISTRANT OUT OF COMPLIANCE"               
+##  [84] "SEX OFFENDER REGISTRANT OUT OF COMPLIANCE"               
+##  [85] "CREDIT CARDS, FRAUD USE ($950.01 & OVER)"                
+##  [86] "ASSAULT WITH DEADLY WEAPON ON POLICE OFFICER"            
+##  [87] "CRIMINAL HOMICIDE"                                       
 ##  [88] "CHILD PORNOGRAPHY"                                       
 ##  [89] "LEWD/LASCIVIOUS ACTS WITH CHILD"                         
 ##  [90] "PEEPING TOM"                                             
@@ -264,11 +283,11 @@ rows from the dataset
 ## [102] "DRIVING WITHOUT OWNER CONSENT (DWOC)"                    
 ## [103] "RECKLESS DRIVING"                                        
 ## [104] "DRUNK ROLL"                                              
-## [105] "GRAND THEFT / INSURANCE FRAUD"                           
-## [106] "BOAT - STOLEN"                                           
-## [107] "CRUELTY TO ANIMALS"                                      
-## [108] "PICKPOCKET, ATTEMPT"                                     
-## [109] "DOCUMENT WORTHLESS ($200.01 & OVER)"                     
+## [105] "DOCUMENT WORTHLESS ($200.01 & OVER)"                     
+## [106] "GRAND THEFT / INSURANCE FRAUD"                           
+## [107] "BOAT - STOLEN"                                           
+## [108] "CRUELTY TO ANIMALS"                                      
+## [109] "PICKPOCKET, ATTEMPT"                                     
 ## [110] "DRUGS, TO A MINOR"                                       
 ## [111] "CHILD ABANDONMENT"                                       
 ## [112] "THEFT, COIN MACHINE - PETTY ($950 & UNDER)"              
@@ -280,16 +299,16 @@ rows from the dataset
 ## [118] "DISHONEST EMPLOYEE - PETTY THEFT"                        
 ## [119] "HUMAN TRAFFICKING - INVOLUNTARY SERVITUDE"               
 ## [120] "BRIBERY"                                                 
-## [121] "GRAND THEFT / AUTO REPAIR"                               
-## [122] "REPLICA FIREARMS(SALE,DISPLAY,MANUFACTURE OR DISTRIBUTE)"
-## [123] "THEFT, COIN MACHINE - ATTEMPT"                           
-## [124] "THEFT, COIN MACHINE - GRAND ($950.01 & OVER)"            
-## [125] "LYNCHING"                                                
-## [126] "MANSLAUGHTER, NEGLIGENT"                                 
-## [127] "PURSE SNATCHING - ATTEMPT"                               
+## [121] "MANSLAUGHTER, NEGLIGENT"                                 
+## [122] "GRAND THEFT / AUTO REPAIR"                               
+## [123] "REPLICA FIREARMS(SALE,DISPLAY,MANUFACTURE OR DISTRIBUTE)"
+## [124] "THEFT, COIN MACHINE - ATTEMPT"                           
+## [125] "THEFT, COIN MACHINE - GRAND ($950.01 & OVER)"            
+## [126] "PURSE SNATCHING - ATTEMPT"                               
+## [127] "LYNCHING"                                                
 ## [128] "LYNCHING - ATTEMPTED"                                    
-## [129] "TILL TAP - GRAND THEFT ($950.01 & OVER)"                 
-## [130] "BEASTIALITY, CRIME AGAINST NATURE SEXUAL ASSLT WITH ANIM"
+## [129] "BEASTIALITY, CRIME AGAINST NATURE SEXUAL ASSLT WITH ANIM"
+## [130] "TILL TAP - GRAND THEFT ($950.01 & OVER)"                 
 ## [131] "FIREARMS EMERGENCY PROTECTIVE ORDER (FIREARMS EPO)"      
 ## [132] "INCEST (SEXUAL ACTS BETWEEN BLOOD RELATIVES)"
 ```
@@ -372,12 +391,24 @@ The next phase, we will look at when offenses most likely occur. First, we will 
 
 ```r
 # creating a new variable with data format
+# DATE OCC´= Date of crime occurrence(YYYY-MM-DD)  
 rape$date <- mdy_hms(rape$DATE.OCC)
-
-# create a month variable with labels
+#year
+rape$year <- year(rape$date)
+# month
 rape$month <- month(rape$date, label = TRUE)
+# hour
+rape$hour <- hour(rape$date)
+summary(rape$hour)
+```
 
-# create a month variable with day 
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##       0       0       0       0       0       0
+```
+
+```r
+# day 
 rape$day <- wday(rape$date, label = TRUE, abbr = FALSE)
 
 # rapes by months
@@ -394,7 +425,7 @@ ggplot(data=rape_month, aes(x = reorder(month, -count), y=count)) +
 
 ![](rape-statistics_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
-The bar graph shows that the most offenses occur in May and it is followed by January and February. The overall results show that spring is the frequent time of the rape crimes. 
+Since the data includes 2020 and half of the 2021, it is not logical to make monthly comparison of the whole data. Then we only keep 2020. The bar graph shows that the most offenses occur in September in 2020 and it is followed by February, October and July. Although the summer season seems to have higher rates of rape, it does not seem to have a strong trend.  
 
 ## Offenses by days
 
