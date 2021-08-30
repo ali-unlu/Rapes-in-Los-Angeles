@@ -1,0 +1,9 @@
+######### 
+# git hub kayit
+# her 30 gunde bir tekrarlanacak
+# komutu calistir
+usethis::create_github_token()
+# yeni bir sifre olustur
+# sync yapinca kullanici adi ve sifreyi gir
+
+
