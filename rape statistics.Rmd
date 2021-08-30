@@ -9,7 +9,7 @@ output:
 In this simulation, we will explore the Los Angeles crime statistics.
 Since the crime types are so wide, we will only check-out __RAPE FORCIBLE__ statistics. 
 
-First we will load the data from the web. The data include updated statistics since 2020. It is a public file, so you can download and play with the data as well. 
+First we will load the data from the web. The data include updated statistics since 2020. It is a public file, so you can download and play with the data as much as you like. 
 
 #### Below are all the variables in the dataset, followed by its description:    
 __DR_NO__ - Division of Records Number: Official file number made up of a 2 digit year, area ID, and 5 digits.  
@@ -21,12 +21,12 @@ __Crm Cd__  - Indicates the crime committed.
 __Crm Cd Desc__ - Defines the Crime Code provided.  
 __Vict Age__ - Indicates the age of the victim.  
 __Vict Sex__ - F: Female M: Male X: Unknown  
-__Vict Descent__ - Descent Code: __A __- Other Asian __B__ - Black __C__ - Chinese __D__ - Cambodian __F__ - Filipino __G__ - Guamanian __H__ - Hispanic/Latin/Mexican __I__ - American Indian/Alaskan Native __J__ - Japanese __K__ - Korean __L__ - Laotian __O__ - Other __P__ - Pacific Islander __S__ - Samoan __U__ - Hawaiian __V__ - Vietnamese __W__ - White __X__ - Unknown __Z__ - Asian Indian  
+__Vict Descent__ - Descent Code: __A__- Other Asian __B__ - Black __C__ - Chinese __D__ - Cambodian __F__ - Filipino __G__ - Guamanian __H__ - Hispanic/Latin/Mexican __I__ - American Indian/Alaskan Native __J__ - Japanese __K__ - Korean __L__ - Laotian __O__ - Other __P__ - Pacific Islander __S__ - Samoan __U__ - Hawaiian __V__ - Vietnamese __W__ - White __X__ - Unknown __Z__ - Asian Indian  
 __Premis Cd__ - The type of structure, vehicle, or location where the crime took place.     
 __Premis Desc__ - Defines the Premise Code provided.  
 __Weapon Used Cd__ - The type of weapon used in the crime.  
 __Weapon Desc__ - Defines the Weapon Used Code provided.    
-__LOCATION __ - Street address of crime incident rounded to the nearest hundred block to maintain anonymity.  
+__LOCATION__ - Street address of crime incident rounded to the nearest hundred block to maintain anonymity.  
 __LAT__ - Latitude Coordinate.  
 __LON__ - Longitude Coordinate.  
 
